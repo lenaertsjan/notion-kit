@@ -1,0 +1,99 @@
+---
+title: Accordion
+description: A vertically stacked set of interactive headings that each reveal a section of content.
+links:
+  - label: Shadcn UI
+    href: https://ui.shadcn.com/docs/components/accordion
+---
+
+<ComponentPreview name="accordion-default" />
+
+## Installation
+
+<Installation packages="@notion-kit/ui" registryName="accordion-default" />
+
+## Anatomy
+
+```tsx
+<Accordion defaultValue={["item-1"]}>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Section title</AccordionTrigger>
+    <AccordionContent>Section content</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Another section</AccordionTrigger>
+    <AccordionContent>More content</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Options
+
+---
+
+### Multiple
+
+Set `multiple` on the root to let more than one item stay expanded at a time.
+The uncontrolled `defaultValue` and controlled `value` are always an array of
+the currently open item values.
+
+```tsx
+<Accordion multiple defaultValue={["item-1", "item-2"]}>
+  ...
+</Accordion>
+```
+
+### Controlled
+
+Use `value` and `onValueChange` when the open item(s) are owned by parent
+state.
+
+```tsx
+const [value, setValue] = useState<string[]>(["item-1"]);
+
+<Accordion value={value} onValueChange={setValue}>
+  ...
+</Accordion>;
+```
+
+## API Reference
+
+### Accordion
+
+The root component that manages open item(s). It accepts Base UI Accordion
+root props and the controlled value props below.
+
+| Prop            | Type                                 | Default | Description                                       |
+| --------------- | ------------------------------------- | ------- | -------------------------------------------------- |
+| `value`         | `Value[]`                             | -       | The controlled open item value(s).                 |
+| `defaultValue`  | `Value[]`                             | `[]`    | The uncontrolled initial open item value(s).       |
+| `onValueChange` | `(value: Value[]) => void`            | -       | Handler called when an item is expanded/collapsed. |
+| `multiple`      | `boolean`                             | `false` | Whether multiple items can be open at once.        |
+| `disabled`      | `boolean`                             | `false` | Whether the whole accordion ignores interaction.   |
+
+### AccordionItem
+
+Groups a header with its corresponding panel.
+
+| Prop       | Type      | Default | Description                                |
+| ---------- | --------- | ------- | ------------------------------------------- |
+| `value`\*  | `unknown` | -       | A unique value identifying this item.       |
+| `disabled` | `boolean` | -       | Whether this item ignores interaction.      |
+
+### AccordionTrigger
+
+The heading and button that opens and closes the item's panel. Renders as an
+`<h3>` header wrapping a `<button>`.
+
+| Prop       | Type      | Default | Description                       |
+| ---------- | --------- | ------- | ---------------------------------- |
+| `disabled` | `boolean` | -       | Whether this trigger is disabled. |
+
+### AccordionContent
+
+The collapsible panel with the item's contents.
+
+| Prop             | Type      | Default | Description                                                |
+| ---------------- | --------- | ------- | ------------------------------------------------------------ |
+| `keepMounted`    | `boolean` | `false` | Whether the panel remains mounted when closed.               |
+| `hiddenUntilFound` | `boolean` | `false` | Lets the browser's find-in-page reveal a closed panel.       |

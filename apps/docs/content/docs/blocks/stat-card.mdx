@@ -1,0 +1,68 @@
+---
+title: Stat Card
+description: A dense stat tile with a label, a large value, and an optional tone and link/button behavior.
+---
+
+<ComponentPreview name="stat-card-default" hideCode />
+
+## Installation
+
+<Installation packages="@notion-kit/ui" registryName="stat-card-default" />
+
+## Anatomy
+
+```tsx
+<StatCardGrid>
+  <StatCard
+    label="Active machines"
+    value="42"
+    caption="+3 this week"
+    icon={<Icon.ViewChart />}
+  />
+  <StatCard label="Pending updates" value="5" tone="warning" />
+  <StatCard label="Failed deploys" value="2" tone="danger" />
+  <StatCard label="Regions" value="6" href="/regions" />
+</StatCardGrid>
+```
+
+## Examples
+
+---
+
+### As a link or button
+
+Pass `href` to render the card as a link, or `onClick` to render it as a
+button. The `label` becomes the accessible name of the interactive card.
+Without either, the card renders as a static `div`.
+
+<ComponentPreview
+  name="stat-card-default"
+  preview={`<StatCard label="Regions" value="6" href="/regions" />`}
+/>
+
+### Tone
+
+`tone` tints the value color: `default`, `warning`, or `danger`. The active
+tone is exposed as a `data-tone` attribute on the card.
+
+## API Reference
+
+### StatCard
+
+| Prop        | Type                                    | Default     | Description                                                                 |
+| ----------- | ---------------------------------------- | ----------- | ---------------------------------------------------------------------------- |
+| `label`\*   | `string`                                 | -           | Small muted label identifying the stat. Also the accessible name when interactive. |
+| `value`\*   | `ReactNode`                               | -           | The large stat value.                                                       |
+| `caption`   | `ReactNode`                               | -           | Optional supporting line below the value.                                  |
+| `icon`      | `ReactNode`                               | -           | Optional icon rendered in the label row.                                    |
+| `href`      | `string`                                  | -           | Renders the card as a link (`<a>`).                                         |
+| `onClick`   | `() => void`                              | -           | Renders the card as a button (`<button>`) when `href` is not set.           |
+| `tone`      | `"default" \| "warning" \| "danger"`      | `"default"` | Tints the value color and sets `data-tone`.                                 |
+| `className` | `string`                                  | -           | Additional classes for the root element.                                    |
+
+### StatCardGrid
+
+| Prop        | Type        | Default | Description                                             |
+| ----------- | ----------- | ------- | --------------------------------------------------------- |
+| `children`\*| `ReactNode` | -       | The `StatCard` elements to lay out.                       |
+| `className` | `string`    | -       | Additional classes for the grid container.                |

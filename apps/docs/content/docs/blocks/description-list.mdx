@@ -1,0 +1,81 @@
+---
+title: Description List
+description: Display a list of term/value pairs as a semantic definition list.
+---
+
+<ComponentPreview name="description-list-default" />
+
+## Installation
+
+<Installation
+  packages="@notion-kit/ui"
+  registryName="description-list-default"
+/>
+
+Import `DescriptionList` from `@notion-kit/ui/description-list`.
+
+## Anatomy
+
+```tsx
+import { DescriptionList } from "@notion-kit/ui/description-list";
+
+<DescriptionList
+  items={[
+    { key: "owner", term: "Owner", value: "Ada Lovelace" },
+    { key: "status", term: "Status", value: "Active" },
+  ]}
+/>;
+```
+
+## Options
+
+---
+
+### Columns
+
+Use the `columns` prop to lay rows out in a responsive two-column grid. The
+default is `1`.
+
+```tsx
+<DescriptionList columns={2} items={items} />
+```
+
+## Manual composition
+
+Compose rows by hand with `DescriptionListItem` inside your own `<dl>` when
+`items` does not fit, such as interleaving custom rows.
+
+```tsx
+import { DescriptionListItem } from "@notion-kit/ui/description-list";
+
+<dl>
+  <DescriptionListItem term="Owner" value="Ada Lovelace" />
+  <DescriptionListItem term="Status" value="Active" />
+</dl>;
+```
+
+## API Reference
+
+### DescriptionList
+
+Renders a `<dl>` from a list of term/value pairs.
+
+| Prop        | Type                     | Default | Description                                    |
+| ----------- | ------------------------ | ------- | ----------------------------------------------- |
+| `items`\*   | `DescriptionListItemData[]` | -   | The term/value pairs to render.                |
+| `columns`   | `1 \| 2`                 | `1`     | Number of columns the rows are laid out in.    |
+| `className` | `string`                 | -       | Additional classes for the `<dl>`.             |
+
+`DescriptionListItemData` is `{ key?: string; term: ReactNode; value: ReactNode }`.
+`key` disambiguates rows with duplicate terms; it otherwise falls back to the
+item's index.
+
+### DescriptionListItem
+
+A single term/value row rendered as `<dt>`/`<dd>` inside a wrapping `<div>`.
+Use it when composing a description list manually instead of via `items`.
+
+| Prop      | Type        | Default | Description        |
+| --------- | ----------- | ------- | ------------------- |
+| `term`\*  | `ReactNode` | -       | The row's `<dt>`.   |
+| `value`\* | `ReactNode` | -       | The row's `<dd>`.   |

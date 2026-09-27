@@ -13,6 +13,7 @@
   "type": "module",
   "exports": {
     "./style.css": "./dist/style.css",
+    "./themes/bliv.css": "./dist/themes/bliv.css",
     "./*": {
       "types": "./dist/*/index.d.mts",
       "default": "./dist/*/index.mjs"
@@ -23,7 +24,7 @@
   ],
   "scripts": {
     "build": "tsdown && pnpm build:css",
-    "build:css": "tailwindcss -i ./src/style.css -o ./dist/style.css --minify",
+    "build:css": "tailwindcss -i ./src/style.css -o ./dist/style.css --minify && mkdir -p dist/themes && cp src/themes/bliv.css dist/themes/bliv.css",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "dev": "tsdown --watch",
     "format": "prettier --check . --ignore-path ../../.gitignore",

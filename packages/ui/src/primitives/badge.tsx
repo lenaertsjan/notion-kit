@@ -12,6 +12,12 @@ const badgeVariants = cva(
         blue: "border-none bg-blue/10 text-blue",
         orange: "border-none bg-[#f6c05042] font-normal text-orange",
         tag: "truncate border-none bg-[#cecdca]/50 text-primary",
+        success:
+          "border-none bg-[#448361]/10 text-[#448361] dark:text-[#5fb37e]",
+        warning: "border-none bg-orange/20 font-medium text-orange",
+        danger: "border-none bg-red/10 text-red",
+        neutral: "border-none bg-default/5 text-secondary",
+        info: "border-none bg-blue/10 text-blue",
       },
       size: {
         md: "px-2.5 py-0.5 text-xs font-semibold",

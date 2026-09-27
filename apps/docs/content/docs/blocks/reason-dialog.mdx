@@ -1,0 +1,80 @@
+---
+title: Reason Dialog
+description: A confirmation dialog that requires a written reason, with optional destructive-action gating behind a typed confirmation phrase.
+---
+
+<ComponentPreview name="reason-dialog-default" hideCode />
+
+## Installation
+
+<Installation packages="@notion-kit/ui" registryName="reason-dialog-default" />
+
+`ReasonDialog` renders `DialogContent` for a `Dialog` root you control, the same
+way `AlertModal` does. Import it from `@notion-kit/ui/reason-dialog`.
+
+## Anatomy
+
+```tsx
+import { ReasonDialog } from "@notion-kit/ui/reason-dialog";
+import { Button, Dialog, DialogTrigger } from "@notion-kit/ui/primitives";
+
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogTrigger render={<Button>Suspend workspace</Button>} />
+  <ReasonDialog
+    title="Suspend this workspace?"
+    confirmLabel="Suspend"
+    onConfirm={async (reason) => {
+      await suspendWorkspace(reason);
+      setOpen(false);
+    }}
+  />
+</Dialog>;
+```
+
+The dialog does not close itself. Close it from `onConfirm` after your
+mutation succeeds; if `onConfirm` throws, the dialog stays open and shows the
+error message instead.
+
+## Examples
+
+---
+
+### Destructive with a confirmation phrase
+
+Set `destructive` for the red confirm button, and `confirmationPhrase` to keep
+the confirm action disabled until the operator types the phrase exactly.
+
+<ComponentPreview
+  name="reason-dialog-default"
+  preview={`<ReasonDialog
+  title="Delete this workspace?"
+  description="This permanently deletes all pages, members, and data. This cannot be undone."
+  confirmLabel="Delete workspace"
+  destructive
+  confirmationPhrase="DELETE"
+  onConfirm={async (reason) => {
+    await deleteWorkspace(reason);
+    setOpen(false);
+  }}
+/>`}
+/>
+
+## API Reference
+
+### ReasonDialog
+
+| Prop                  | Type                                      | Default    | Description                                                                          |
+| --------------------- | ------------------------------------------ | ---------- | -------------------------------------------------------------------------------------- |
+| `title`                | `string`                                   | -          | The dialog title.                                                                     |
+| `description`          | `React.ReactNode`                          | -          | Additional context shown below the title.                                            |
+| `confirmLabel`         | `string`                                   | -          | Label for the confirming action.                                                     |
+| `cancelLabel`          | `string`                                   | `"Cancel"` | Label for the cancelling action.                                                      |
+| `destructive`          | `boolean`                                  | `false`    | Uses the destructive (`red-fill`) button style instead of `blue`.                    |
+| `confirmationPhrase`   | `string`                                   | -          | When set, confirm stays disabled until the operator types this phrase exactly.       |
+| `reasonLabel`          | `string`                                   | `"Reason"` | Label for the reason field.                                                          |
+| `reasonPlaceholder`    | `string`                                   | -          | Placeholder text for the reason field.                                               |
+| `minReasonLength`      | `number`                                   | `1`        | Minimum trimmed reason length required to confirm.                                  |
+| `maxReasonLength`      | `number`                                   | `1000`     | Maximum trimmed reason length allowed to confirm.                                    |
+| `children`             | `React.ReactNode`                          | -          | Extra fields rendered above the reason field.                                        |
+| `onConfirm`            | `(reason: string) => void \| Promise<void>` | -          | Called with the trimmed reason. Rejecting keeps the dialog open and shows the error. |
+| `onCancel`             | `() => void`                               | -          | Called when the cancel button is clicked.                                            |

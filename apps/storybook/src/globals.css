@@ -2,5 +2,10 @@
 
 @import "@notion-kit/tailwind-config/base.css";
 
+/* Bliv brand theme, scoped to `.theme-bliv`; toggled by the "brand" toolbar
+ * in `.storybook/preview.tsx` (see `withTheme` in `.storybook/decorators.tsx`).
+ * Must load after the base theme above so its overrides win. */
+@import "../../../packages/ui/src/themes/bliv.css";
+
 /* Use this for better DX */
 @source "../../../packages/**/src/**/*.{ts,tsx}";

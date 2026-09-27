@@ -1,0 +1,108 @@
+---
+title: Read Only Table View
+description: A read-only preset of Table View for data an operator can view, filter, and sort, but never edit.
+---
+
+<ComponentPreview name="table-view-read-only" hideCode />
+
+## Installation
+
+<Installation
+  packages="@notion-kit/table-view"
+  registryName="table-view-read-only"
+/>
+
+## Features
+
+- Search, filter, sort, group, and show/hide columns — the toolbar stays fully
+  functional
+- No add-row control, no drag-reorder, no cell editors, no bulk edit
+- Column header menus offer filter/sort/group/calculate/freeze/hide/wrap, but
+  never rename, change type, insert, duplicate, or delete a property
+- Clicking a row (outside of links and other interactive content) opens a
+  read-only detail drawer, the same panel `TableView` uses to open a row
+- `renderRowDetail` adds custom content to that drawer
+- `onRowClick` runs alongside the drawer opening, for a consumer's own
+  side effects (routing, analytics, syncing external state)
+
+## When to use this instead of `TableView`
+
+Use [`TableView`](/docs/blocks/table-view) when the person looking at the
+table is allowed to change what's in it. Use `ReadOnlyTableView` for an
+operations console, an audit view, or any surface where the data comes from a
+system of record the viewer must not edit, but still needs to search, filter,
+sort, and drill into.
+
+`ReadOnlyTableView` shares `TableView`'s data model: the same `data`,
+`properties`, plugin, and view props. Everything you already know about
+controlled vs. uncontrolled resources, `defaultColumn`, and `ColumnDefs`
+carries over — see [Table View](/docs/blocks/table-view) for those.
+
+## How read-only is enforced
+
+`ReadOnlyTableView` forces `view.locked` (or `defaultView.locked`) to `true`
+and never renders anything that could set it back to `false`. `locked` is the
+same flag `TableView` already uses to make a table temporarily read-only —
+see [`TableViewState`](/docs/blocks/table-view#tableviewstate) — so every
+place that already respects it (disabled cell editors, no add-row control, no
+row drag-and-drop, an inert row detail panel) works here unchanged. On top of
+that, `ReadOnlyTableView` renders its own column header menu, "columns" panel,
+and view-settings menu, because the full editor disables those *entirely*
+while locked rather than narrowing them — this preset needs filter/sort/group
+to stay available.
+
+## Examples
+
+### Basic
+
+<ComponentPreview
+  name="table-view-read-only"
+  preview={`<ReadOnlyTableView
+    defaultProperties={properties}
+    defaultData={data}
+  />`}
+/>
+
+### Row click and a custom detail drawer
+
+```tsx
+import { ReadOnlyTableView } from "@notion-kit/table-view/read-only";
+
+<ReadOnlyTableView
+  defaultProperties={properties}
+  defaultData={data}
+  onRowClick={(rowId, row) => analytics.track("row_opened", { rowId })}
+  renderRowDetail={(row) => (
+    <a href={`/audit/${row.id}`} className="text-sm text-blue">
+      View full audit trail
+    </a>
+  )}
+/>;
+```
+
+`renderRowDetail` renders below the row's read-only property list, inside the
+same drawer `TableView` already opens for a row (`view.rowView`'s `side`,
+`full`, and `center` modes are all supported). `onRowClick` fires whenever a
+row is clicked outside of an interactive child such as a link — it does not
+replace the drawer, it runs alongside it.
+
+## API Reference
+
+### ReadOnlyTableView
+
+Takes every [`TableView`](/docs/blocks/table-view#tableview) prop except
+`defaultColumn`, which this preset owns to guarantee the read-only rendering
+below — a `defaultColumn` passed in is ignored, plus:
+
+| Prop              | Type                                    | Description                                                                              |
+| ----------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `onRowClick`      | `(rowId: string, row: RowInstance) => void` | Called when a row is clicked outside of an interactive child, alongside opening the drawer. |
+| `renderRowDetail` | `(row: RowInstance) => ReactNode`        | Extra content rendered inside the opened row's detail drawer, below its property list.     |
+
+### What's intentionally out of scope
+
+- Only the table (grid) layout renders — Board, List, Timeline, and Calendar
+  are not available here, regardless of `view.layout`
+- Column drag-reordering is dropped; the "columns" panel still supports
+  search and show/hide
+- Edit logs (`fetchTableEditLogs`/`fetchRowEditLogs`) aren't wired up

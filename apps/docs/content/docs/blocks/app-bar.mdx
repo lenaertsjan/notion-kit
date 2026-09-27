@@ -1,0 +1,110 @@
+---
+title: App Bar
+description: A console app bar with a brand mark, breadcrumbs, a center slot, actions, and an account menu.
+---
+
+<ComponentPreview name="app-bar-default" hideCode className="p-0" />
+
+## Installation
+
+<Installation packages="@notion-kit/ui" registryName="app-bar-default" />
+
+## Anatomy
+
+```tsx
+<AppBar
+  brand="Bliv"
+  breadcrumbs={[{ label: "Fleet", href: "#" }, { label: "Machines" }]}
+  actions={
+    <Button variant="icon" aria-label="Refresh">
+      <Icon.Undo />
+    </Button>
+  }
+  user={{ name: "Ada Lovelace", email: "ada@example.com" }}
+  onSignOut={() => signOut()}
+/>
+```
+
+## Examples
+
+---
+
+### Default
+
+<ComponentPreview
+  name="app-bar-default"
+  preview={`<AppBar brand="Bliv" />`}
+  className="p-0"
+/>
+
+### With breadcrumbs
+
+<ComponentPreview
+  name="app-bar-default"
+  preview={`<AppBar
+  brand="Bliv"
+  breadcrumbs={[{ label: "Fleet", href: "#" }, { label: "Machines" }]}
+/>`}
+  className="p-0"
+/>
+
+### With actions and an account menu
+
+<ComponentPreview
+  name="app-bar-default"
+  preview={`<AppBar
+  brand="Bliv"
+  breadcrumbs={[{ label: "Fleet", href: "#" }, { label: "Machines" }]}
+  actions={
+    <Button variant="icon" aria-label="Refresh">
+      <Icon.Undo />
+    </Button>
+  }
+  user={{ name: "Ada Lovelace", email: "ada@example.com" }}
+  onSignOut={() => signOut()}
+/>`}
+  className="p-0"
+/>
+
+## API Reference
+
+### AppBar
+
+Composes the [`Navbar`](/docs/blocks/navbar) core.
+
+| Prop          | Type                                | Default | Description                                                             |
+| ------------- | ------------------------------------ | ------- | ------------------------------------------------------------------------ |
+| `brand`\*     | `ReactNode`                          | -       | Product/workspace mark rendered at the far left.                        |
+| `breadcrumbs` | [`AppBarBreadcrumb[]`](#type-appbarbreadcrumb) | `[]`    | Breadcrumb trail; the last entry is treated as the current page.        |
+| `children`    | `ReactNode`                          | -       | Center slot, e.g. search or tabs.                                       |
+| `user`        | [`AppBarUser`](#type-appbaruser)     | -       | Signed-in user; renders an account menu when provided.                  |
+| `actions`     | `ReactNode`                          | -       | Extra controls rendered before the account menu.                        |
+| `onSignOut`   | `() => void`                         | -       | Called when "Sign out" is selected from the account menu.               |
+| `className`   | `string`                             | -       | Additional classes for the root `nav` element.                          |
+
+<Callout title="Note">
+  The account menu trigger always has the fixed accessible name "Account
+  menu" so it does not depend on the signed-in user's name or email.
+</Callout>
+
+### `type` AppBarBreadcrumb
+
+```ts
+interface AppBarBreadcrumb {
+  label: string;
+  href?: string;
+  onClick?: () => void;
+}
+```
+
+An item with `href` renders an `<a>`, an item with `onClick` renders a `Button`, otherwise a plain `<span>`. The last item receives `aria-current="page"`.
+
+### `type` AppBarUser
+
+```ts
+interface AppBarUser {
+  name: string;
+  email?: string;
+  avatarUrl?: string;
+}
+```

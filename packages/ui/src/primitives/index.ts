@@ -3,6 +3,7 @@ export * from "./design";
 export * from "./menu";
 export * from "./variants";
 /** Shadcn UI */
+export * from "./accordion";
 export * from "./autocomplete";
 export * from "./avatar";
 export * from "./badge";

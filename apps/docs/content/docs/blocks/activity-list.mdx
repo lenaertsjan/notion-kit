@@ -1,0 +1,69 @@
+---
+title: Activity List
+description: Reads an operator's activity or audit trail, with an optional metadata disclosure per event.
+---
+
+<ComponentPreview name="activity-list-default" hideCode />
+
+## Installation
+
+<Installation packages="@notion-kit/ui" registryName="activity-list-default" />
+
+Import `ActivityList` from `@notion-kit/ui/activity-list`.
+
+## Anatomy
+
+```tsx
+import { ActivityList, type ActivityEvent } from "@notion-kit/ui/activity-list";
+
+const events: ActivityEvent[] = [
+  {
+    id: "1",
+    occurredAt: new Date(),
+    category: "Billing",
+    action: "Suspended workspace",
+    actor: "jan@example.com",
+    resourceType: "workspace",
+    resourceId: "ws_9f21",
+    metadata: { reason: "Payment failed twice" },
+  },
+];
+
+<ActivityList events={events} onSelect={(event) => openEvent(event)} />;
+```
+
+## Examples
+
+---
+
+### Empty state
+
+<ComponentPreview
+  name="activity-list-default"
+  preview={`<ActivityList events={[]} emptyMessage="No activity yet" />`}
+/>
+
+## API Reference
+
+### ActivityList
+
+| Prop           | Type                             | Default            | Description                                                     |
+| -------------- | --------------------------------- | ------------------- | ----------------------------------------------------------------- |
+| `events`       | `ActivityEvent[]`                 | -                   | Events to render, in the order given.                            |
+| `emptyMessage` | `string`                          | `"No activity yet"` | Shown when `events` is empty.                                    |
+| `onSelect`     | `(event: ActivityEvent) => void`  | -                   | When set, each row's content becomes a button named by `action`. |
+| `className`    | `string`                          | -                   | Applied to the root `ol`.                                        |
+
+### ActivityEvent
+
+| Field          | Type                     | Description                                                        |
+| -------------- | ------------------------ | -------------------------------------------------------------------- |
+| `id`           | `string`                 | Unique event id, used as the row key.                                |
+| `occurredAt`   | `string \| Date`         | When the event happened. Rendered as a relative time with a title.  |
+| `category`     | `string`                 | Optional category shown as a `gray` badge.                          |
+| `action`       | `string`                 | What happened, e.g. `"Suspended workspace"`.                        |
+| `actor`        | `string`                 | Who did it.                                                          |
+| `resourceType` | `string`                 | The type of resource affected, e.g. `"workspace"`.                   |
+| `resourceId`   | `string`                 | The id of the resource affected.                                     |
+| `summary`      | `React.ReactNode`        | Optional extra detail rendered below the actor/resource line.       |
+| `metadata`     | `Record<string, string>` | Key/value pairs shown behind a native "Details" disclosure.         |

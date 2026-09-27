@@ -1,0 +1,33 @@
+---
+title: Page Header
+description: A console page header with an eyebrow, title, subtitle, and right-aligned actions.
+---
+
+<ComponentPreview name="page-header-default" hideCode />
+
+## Installation
+
+<Installation packages="@notion-kit/ui" registryName="page-header-default" />
+
+## Anatomy
+
+```tsx
+<PageHeader
+  eyebrow="Fleet"
+  title="Machines"
+  subtitle="All machines provisioned across regions"
+  actions={<Button>Add machine</Button>}
+/>
+```
+
+## API Reference
+
+### PageHeader
+
+| Prop       | Type        | Default | Description                                                    |
+| ---------- | ----------- | ------- | ---------------------------------------------------------------- |
+| `eyebrow`  | `ReactNode` | -       | Small uppercase label rendered above the title.                 |
+| `title`\*  | `ReactNode` | -       | The page title, rendered as an `h1`.                             |
+| `subtitle` | `ReactNode` | -       | Supporting text rendered below the title.                       |
+| `actions`  | `ReactNode` | -       | Right-aligned content, such as buttons or a menu trigger.       |
+| `className`| `string`    | -       | Additional classes for the root `header` element.                |

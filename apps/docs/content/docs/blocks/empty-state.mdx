@@ -1,0 +1,50 @@
+---
+title: Empty State
+description: A centered placeholder for an empty list or view, with an icon, title, description, and optional action.
+---
+
+<ComponentPreview name="empty-state-default" hideCode />
+
+## Installation
+
+<Installation packages="@notion-kit/ui" registryName="empty-state-default" />
+
+## Anatomy
+
+```tsx
+<EmptyState
+  icon={<Icon.SquareGrid2x2 />}
+  title="No machines yet"
+  description="Provision a machine to see it appear here."
+  action={{ label: "Add machine", onClick: () => {} }}
+/>
+```
+
+## Examples
+
+---
+
+### Custom action node
+
+`action` accepts a `{ label, onClick }` pair rendered as a `Button`, or any
+custom node such as a link.
+
+<ComponentPreview
+  name="empty-state-default"
+  preview={`<EmptyState
+    title="No machines yet"
+    action={<a href="/docs">Learn more</a>}
+  />`}
+/>
+
+## API Reference
+
+### EmptyState
+
+| Prop          | Type                                          | Default | Description                                                          |
+| ------------- | ---------------------------------------------- | ------- | ----------------------------------------------------------------------- |
+| `icon`        | `ReactNode`                                     | -       | Icon rendered inside a soft circle above the title.                    |
+| `title`\*     | `ReactNode`                                     | -       | The empty-state title.                                                 |
+| `description` | `ReactNode`                                     | -       | Supporting text below the title.                                       |
+| `action`      | `{ label: string; onClick: () => void } \| ReactNode` | -       | Rendered as a `Button` when given `{ label, onClick }`, otherwise rendered as-is. |
+| `className`   | `string`                                        | -       | Additional classes for the root `section` element.                     |

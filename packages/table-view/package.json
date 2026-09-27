@@ -23,6 +23,10 @@
     "./mock": {
       "types": "./dist/mock.d.mts",
       "default": "./dist/mock.mjs"
+    },
+    "./read-only": {
+      "types": "./dist/read-only.d.mts",
+      "default": "./dist/read-only.mjs"
     }
   },
   "main": "./dist/index.mjs",

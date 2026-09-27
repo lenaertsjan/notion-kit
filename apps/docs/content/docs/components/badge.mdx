@@ -19,7 +19,8 @@ links:
 ### Variant
 
 Use the `variant` prop to control the visual style of the badge.<br/>
-The default variant is `"default"`.
+The default variant is `"default"`. `success`, `warning`, `danger`, `neutral`,
+and `info` are semantic variants for status indicators.
 
 <ComponentPreview
   name="badge-variants"
@@ -28,6 +29,11 @@ The default variant is `"default"`.
   <Badge variant="blue">blue</Badge>
   <Badge variant="orange">orange</Badge>
   <Badge variant="tag">tag</Badge>
+  <Badge variant="success">success</Badge>
+  <Badge variant="warning">warning</Badge>
+  <Badge variant="danger">danger</Badge>
+  <Badge variant="neutral">neutral</Badge>
+  <Badge variant="info">info</Badge>
   `}
 />
 
@@ -48,7 +54,7 @@ The default size is `"md"`.
 
 An `Badge` extends the HTML `<div>` component. We list the extended properties only.
 
-| Prop      | Type                                                        | Default     | Description                    |
-| --------- | ----------------------------------------------------------- | ----------- | ------------------------------ |
-| `variant` | `"default" \| "gray" \| "blue \| "orange" \| "tag" \| null` | `"default"` | The visual style of the badge. |
+| Prop      | Type                                                                                                          | Default     | Description                    |
+| --------- | --------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------ |
+| `variant` | `"default" \| "gray" \| "blue" \| "orange" \| "tag" \| "success" \| "warning" \| "danger" \| "neutral" \| "info" \| null` | `"default"` | The visual style of the badge. |
 | `size`    | `"sm" \| "md"`                                              | `"md"`      | The size of the badge.         |

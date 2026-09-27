@@ -39,6 +39,15 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    brand: {
+      description: "Global brand theme for components",
+      toolbar: {
+        title: "Brand",
+        icon: "component",
+        items: ["notion", "bliv"],
+        dynamicTitle: true,
+      },
+    },
     locale: {
       description: "Internationalization locale",
       toolbar: {
@@ -50,6 +59,7 @@ const preview: Preview = {
     },
     initialGlobals: {
       theme: "light",
+      brand: "notion",
       locale: "en",
     },
   },

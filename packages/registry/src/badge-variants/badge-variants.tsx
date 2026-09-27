@@ -1,6 +1,17 @@
 import { Badge } from "@notion-kit/ui/primitives";
 
-const variants = ["default", "gray", "blue", "orange", "tag"] as const;
+const variants = [
+  "default",
+  "gray",
+  "blue",
+  "orange",
+  "tag",
+  "success",
+  "warning",
+  "danger",
+  "neutral",
+  "info",
+] as const;
 
 export default function Variants() {
   return (

@@ -11,6 +11,22 @@ export const Index: Record<
     component: React.LazyExoticComponent<React.ComponentType<object>>;
   }
 > = {
+  "accordion-default": {
+    files: ["registry/src/accordion-default/accordion-default.tsx"],
+    component: React.lazy(
+      () => import("@notion-kit/registry/accordion-default"),
+    ),
+  },
+  "activity-list-default": {
+    files: ["registry/src/activity-list-default/activity-list-default.tsx"],
+    component: React.lazy(
+      () => import("@notion-kit/registry/activity-list-default"),
+    ),
+  },
+  "app-bar-default": {
+    files: ["registry/src/app-bar-default/app-bar-default.tsx"],
+    component: React.lazy(() => import("@notion-kit/registry/app-bar-default")),
+  },
   "autocomplete-default": {
     files: ["registry/src/autocomplete-default/autocomplete-default.tsx"],
     component: React.lazy(
@@ -141,6 +157,14 @@ export const Index: Record<
     files: ["registry/src/context-menu/context-menu.tsx"],
     component: React.lazy(() => import("@notion-kit/registry/context-menu")),
   },
+  "copy-secret-field-default": {
+    files: [
+      "registry/src/copy-secret-field-default/copy-secret-field-default.tsx",
+    ],
+    component: React.lazy(
+      () => import("@notion-kit/registry/copy-secret-field-default"),
+    ),
+  },
   "cover-default": {
     files: ["registry/src/cover-default/cover-default.tsx"],
     component: React.lazy(() => import("@notion-kit/registry/cover-default")),
@@ -148,6 +172,14 @@ export const Index: Record<
   "cover-picker": {
     files: ["registry/src/cover-picker/cover-picker.tsx"],
     component: React.lazy(() => import("@notion-kit/registry/cover-picker")),
+  },
+  "description-list-default": {
+    files: [
+      "registry/src/description-list-default/description-list-default.tsx",
+    ],
+    component: React.lazy(
+      () => import("@notion-kit/registry/description-list-default"),
+    ),
   },
   "dropdown-menu": {
     files: ["registry/src/dropdown-menu/dropdown-menu.tsx"],
@@ -163,6 +195,12 @@ export const Index: Record<
     files: ["registry/src/dropdown-menu-radio/dropdown-menu-radio.tsx"],
     component: React.lazy(
       () => import("@notion-kit/registry/dropdown-menu-radio"),
+    ),
+  },
+  "empty-state-default": {
+    files: ["registry/src/empty-state-default/empty-state-default.tsx"],
+    component: React.lazy(
+      () => import("@notion-kit/registry/empty-state-default"),
     ),
   },
   "icon-block-emoji": {
@@ -324,6 +362,18 @@ export const Index: Record<
     files: ["registry/src/navbar-title/navbar-title.tsx"],
     component: React.lazy(() => import("@notion-kit/registry/navbar-title")),
   },
+  "page-header-default": {
+    files: ["registry/src/page-header-default/page-header-default.tsx"],
+    component: React.lazy(
+      () => import("@notion-kit/registry/page-header-default"),
+    ),
+  },
+  "reason-dialog-default": {
+    files: ["registry/src/reason-dialog-default/reason-dialog-default.tsx"],
+    component: React.lazy(
+      () => import("@notion-kit/registry/reason-dialog-default"),
+    ),
+  },
   "resizable-demo": {
     files: ["registry/src/resizable-demo/resizable-demo.tsx"],
     component: React.lazy(() => import("@notion-kit/registry/resizable-demo")),
@@ -474,6 +524,12 @@ export const Index: Record<
       () => import("@notion-kit/registry/spinner-variants"),
     ),
   },
+  "stat-card-default": {
+    files: ["registry/src/stat-card-default/stat-card-default.tsx"],
+    component: React.lazy(
+      () => import("@notion-kit/registry/stat-card-default"),
+    ),
+  },
   "switch-default": {
     files: ["registry/src/switch-default/switch-default.tsx"],
     component: React.lazy(() => import("@notion-kit/registry/switch-default")),
@@ -492,6 +548,12 @@ export const Index: Record<
     files: ["registry/src/table-view-controlled/table-view-controlled.tsx"],
     component: React.lazy(
       () => import("@notion-kit/registry/table-view-controlled"),
+    ),
+  },
+  "table-view-read-only": {
+    files: ["registry/src/table-view-read-only/table-view-read-only.tsx"],
+    component: React.lazy(
+      () => import("@notion-kit/registry/table-view-read-only"),
     ),
   },
   "table-view-uncontrolled": {
