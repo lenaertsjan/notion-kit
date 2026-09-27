@@ -4,7 +4,10 @@
     "module": "esnext",
     "lib": ["ES2022", "dom", "dom.iterable"],
     "jsx": "preserve",
-    "paths": { "@/*": ["./src/*"] }
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src", ".storybook/**/*.ts", ".storybook/**/*.tsx"],
   "exclude": ["node_modules"]

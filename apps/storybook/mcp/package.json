@@ -1,0 +1,8 @@
+{
+  "name": "storybook-mcp-host",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@storybook/mcp": "10.6.0"
+  }
+}

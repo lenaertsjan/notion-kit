@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "notion-kit-storybook": {
+      "type": "http",
+      "url": "https://storybook.spica.dev/mcp"
+    }
+  }
+}
