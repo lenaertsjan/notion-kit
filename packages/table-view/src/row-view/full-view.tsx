@@ -9,7 +9,12 @@ import { rowViewContentVariants } from "./utils";
 import { ViewNav } from "./view-nav";
 import { ViewProps } from "./view-props";
 
-export function FullView({ children }: React.PropsWithChildren) {
+export interface FullViewProps extends React.PropsWithChildren {
+  /** Skip the row's property list, for consumers that render their own detail. */
+  hideProps?: boolean;
+}
+
+export function FullView({ children, hideProps }: FullViewProps) {
   const { table } = useTableViewCtx();
 
   return (
@@ -41,7 +46,7 @@ export function FullView({ children }: React.PropsWithChildren) {
                 {titleCell.cell.value || "New page"}
               </div>
               <div className="col-start-2 mb-3 min-w-0">
-                <ViewProps rowId={openedRowId} />
+                {!hideProps && <ViewProps rowId={openedRowId} />}
               </div>
               <div className="col-start-2">{children}</div>
             </div>

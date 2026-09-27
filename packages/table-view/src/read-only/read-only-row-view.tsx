@@ -27,18 +27,20 @@ export type RenderRowDetail = (row: RowInstance) => ReactNode;
  */
 export function ReadOnlyRowView({
   renderRowDetail,
+  hideRowProperties,
 }: {
   renderRowDetail?: RenderRowDetail;
+  hideRowProperties?: boolean;
 }) {
   return (
     <>
-      <DialogView>
+      <DialogView hideProps={hideRowProperties}>
         <RowDetailSlot renderRowDetail={renderRowDetail} />
       </DialogView>
-      <SideView>
+      <SideView hideProps={hideRowProperties}>
         <RowDetailSlot renderRowDetail={renderRowDetail} />
       </SideView>
-      <FullView>
+      <FullView hideProps={hideRowProperties}>
         <RowDetailSlot renderRowDetail={renderRowDetail} />
       </FullView>
     </>

@@ -9,7 +9,12 @@ import { rowViewContentVariants } from "./utils";
 import { ViewNav } from "./view-nav";
 import { ViewProps } from "./view-props";
 
-export function DialogView({ children }: React.PropsWithChildren) {
+export interface DialogViewProps extends React.PropsWithChildren {
+  /** Skip the row's property list, for consumers that render their own detail. */
+  hideProps?: boolean;
+}
+
+export function DialogView({ children, hideProps }: DialogViewProps) {
   const { table } = useTableViewCtx();
 
   return (
@@ -46,7 +51,7 @@ export function DialogView({ children }: React.PropsWithChildren) {
                       {title || "New page"}
                     </DialogTitle>
                     <div className="col-start-2 mb-3 min-w-0">
-                      <ViewProps rowId={visibleRowId} />
+                      {!hideProps && <ViewProps rowId={visibleRowId} />}
                     </div>
                     <div className="col-start-2">{children}</div>
                   </div>

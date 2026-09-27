@@ -9,7 +9,12 @@ import { rowViewContentVariants } from "./utils";
 import { ViewNav } from "./view-nav";
 import { ViewProps } from "./view-props";
 
-export function SideView({ children }: React.PropsWithChildren) {
+export interface SideViewProps extends React.PropsWithChildren {
+  /** Skip the row's property list, for consumers that render their own detail. */
+  hideProps?: boolean;
+}
+
+export function SideView({ children, hideProps }: SideViewProps) {
   const { table } = useTableViewCtx();
 
   return (
@@ -42,7 +47,7 @@ export function SideView({ children }: React.PropsWithChildren) {
                       {title || "New page"}
                     </SheetTitle>
                     <div className="col-start-2 mb-3 min-w-0">
-                      <ViewProps rowId={visibleRowId} />
+                      {!hideProps && <ViewProps rowId={visibleRowId} />}
                     </div>
                     <div className="col-start-2">{children}</div>
                   </div>

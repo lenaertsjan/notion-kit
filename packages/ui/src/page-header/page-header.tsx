@@ -2,8 +2,6 @@ import type * as React from "react";
 
 import { cn } from "@notion-kit/cn";
 
-import { typography } from "@/primitives";
-
 export interface PageHeaderProps {
   /** Small uppercase label rendered above the title. */
   eyebrow?: React.ReactNode;
@@ -34,12 +32,14 @@ function PageHeader({
     >
       <div className="flex min-w-0 flex-col gap-1">
         {eyebrow && (
-          <span className="text-xs tracking-wide text-muted uppercase">
+          <span className="text-xs font-medium tracking-wide text-muted uppercase">
             {eyebrow}
           </span>
         )}
-        <h1 className={cn(typography("h2"), "text-primary")}>{title}</h1>
-        {subtitle && <p className="text-sm text-muted">{subtitle}</p>}
+        <h1 className="text-[22px]/7 font-semibold tracking-tight text-primary">
+          {title}
+        </h1>
+        {subtitle && <p className="text-sm text-secondary">{subtitle}</p>}
       </div>
       {actions && (
         <div className="flex shrink-0 items-center gap-2">{actions}</div>

@@ -18,9 +18,14 @@ import { ReadOnlyRowView, type RenderRowDetail } from "./read-only-row-view";
 import type { ReadOnlyRowClickHandler } from "./read-only-table-body";
 import { ReadOnlyTableBody } from "./read-only-table-body";
 import { ReadOnlyTableHeader } from "./read-only-table-header";
+import type { ReadOnlyToolbarVariant } from "./read-only-toolbar";
 import { ReadOnlyViewControls } from "./read-only-view-controls";
 
-export type { ReadOnlyRowClickHandler, RenderRowDetail };
+export type {
+  ReadOnlyRowClickHandler,
+  RenderRowDetail,
+  ReadOnlyToolbarVariant,
+};
 
 export type ReadOnlyTableViewProps<
   TPlugins extends CellPlugin[] = DefaultPlugins,
@@ -40,6 +45,13 @@ export type ReadOnlyTableViewProps<
    * property list every row already shows.
    */
   renderRowDetail?: RenderRowDetail;
+  /**
+   * Omit the built-in property list from the row detail drawer, so
+   * `renderRowDetail` is the only detail content.
+   */
+  hideRowProperties?: boolean;
+  /** Toolbar style: compact Notion icons, or labelled chips with a search box. */
+  toolbar?: ReadOnlyToolbarVariant;
 };
 
 /**
@@ -98,6 +110,8 @@ export function ReadOnlyTableView<
   children,
   onRowClick,
   renderRowDetail,
+  hideRowProperties,
+  toolbar = "icons",
   plugins = DEFAULT_PLUGINS as unknown as TablePluginPair<TPlugins>,
   ...rest
 }: ReadOnlyTableViewProps<TPlugins>) {
@@ -118,12 +132,15 @@ export function ReadOnlyTableView<
             data-slot="table-view-toolbar-container"
             className="sticky top-0 z-(--z-row) w-full min-w-0 overflow-x-clip bg-main pb-2"
           >
-            <ReadOnlyViewControls />
+            <ReadOnlyViewControls toolbar={toolbar} />
           </Table.Content>
           <ReadOnlyContent onRowClick={onRowClick} />
           {children}
         </Table.Root>
-        <ReadOnlyRowView renderRowDetail={renderRowDetail} />
+        <ReadOnlyRowView
+          renderRowDetail={renderRowDetail}
+          hideRowProperties={hideRowProperties}
+        />
       </MenuCoordinatorProvider>
     </TableViewWrapper>
   );

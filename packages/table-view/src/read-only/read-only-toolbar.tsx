@@ -1,4 +1,5 @@
 import { useId, useRef, useState } from "react";
+import type React from "react";
 
 import { cn } from "@notion-kit/cn";
 import { Icon } from "@notion-kit/icons";
@@ -30,7 +31,22 @@ import { ReadOnlyTableViewMenu } from "./read-only-view-menu";
  * full page" placeholders the editor's toolbar renders, since they don't fit
  * a data-you-can-never-edit console.
  */
-export function ReadOnlyToolbar({ className }: { className?: string }) {
+export type ReadOnlyToolbarVariant = "icons" | "chips";
+
+export interface ReadOnlyToolbarProps {
+  className?: string;
+  /**
+   * `icons` (default) is the compact Notion toolbar. `chips` renders labelled
+   * outlined buttons left-aligned with an always-visible search box, the
+   * layout a data console expects above a table.
+   */
+  variant?: ReadOnlyToolbarVariant;
+}
+
+export function ReadOnlyToolbar({
+  className,
+  variant = "icons",
+}: ReadOnlyToolbarProps) {
   const { table } = useTableViewCtx();
 
   // `state.menu` (the settings dropdown's open/page state) is read
@@ -40,48 +56,58 @@ export function ReadOnlyToolbar({ className }: { className?: string }) {
   // was on the first render — mirrors `@/tools/toolbar`'s `Toolbar`.
   return (
     <table.Subscribe selector={(state) => state.menu}>
-      {() => <ReadOnlyToolbarContent className={className} />}
+      {() => <ReadOnlyToolbarContent className={className} variant={variant} />}
     </table.Subscribe>
   );
 }
 
-function ReadOnlyToolbarContent({ className }: { className?: string }) {
+function ReadOnlyToolbarContent({
+  className,
+  variant = "icons",
+}: ReadOnlyToolbarProps) {
   const settingsRef = useRef<HTMLButtonElement>(null);
   const { table } = useTableViewCtx();
   const { filterMenu, sortMenu } = useMenuCoordinator();
   const tableMenu = table.getTableMenuState();
+  const chips = variant === "chips";
+  const chipButton = (label: string, icon: React.ReactNode) =>
+    chips ? (
+      <Button variant="primary" size="xs" className="gap-1 px-2 text-xs">
+        {icon}
+        {label}
+      </Button>
+    ) : (
+      <Button
+        variant="nav-icon"
+        aria-label={label}
+        className="[&_svg]:fill-current"
+      >
+        {icon}
+      </Button>
+    );
 
   return (
-    <div className={cn("flex items-center justify-end gap-0.5", className)}>
+    <div
+      className={cn(
+        "flex items-center",
+        chips ? "justify-start gap-2" : "justify-end gap-0.5",
+        className,
+      )}
+    >
+      {chips ? <ReadOnlyToolbarSearch variant="chips" /> : null}
       <TooltipPreset description="Filter" side="top">
         <PopoverTrigger
           id={FILTER_MENU_TOOLBAR_TRIGGER_ID}
           handle={filterMenu.handle}
-          render={
-            <Button
-              variant="nav-icon"
-              aria-label="Filter"
-              className="[&_svg]:fill-current"
-            >
-              <Icon.FilterSmall />
-            </Button>
-          }
+          render={chipButton("Filter", <Icon.FilterSmall />)}
         />
       </TooltipPreset>
       <DropdownMenuTrigger
         id={SORT_MENU_TOOLBAR_TRIGGER_ID}
         handle={sortMenu.handle}
-        render={
-          <Button
-            variant="nav-icon"
-            aria-label="Sort"
-            className="[&_svg]:fill-current"
-          >
-            <Icon.ArrowUpDownSmall />
-          </Button>
-        }
+        render={chipButton("Sort", <Icon.ArrowUpDownSmall />)}
       />
-      <ReadOnlyToolbarSearch />
+      {!chips && <ReadOnlyToolbarSearch />}
       <DropdownMenu
         open={tableMenu.open}
         onOpenChange={(open) =>
@@ -93,14 +119,26 @@ function ReadOnlyToolbarContent({ className }: { className?: string }) {
       >
         <DropdownMenuTrigger
           render={
-            <Button
-              variant="nav-icon"
-              aria-label="Settings"
-              ref={settingsRef}
-              className="[&_svg]:fill-current"
-            >
-              <Icon.SlidersSmall />
-            </Button>
+            chips ? (
+              <Button
+                variant="primary"
+                size="xs"
+                ref={settingsRef}
+                className="gap-1 px-2 text-xs"
+              >
+                <Icon.SlidersSmall />
+                Columns
+              </Button>
+            ) : (
+              <Button
+                variant="nav-icon"
+                aria-label="Settings"
+                ref={settingsRef}
+                className="[&_svg]:fill-current"
+              >
+                <Icon.SlidersSmall />
+              </Button>
+            )
           }
         />
         <DropdownMenuContent collisionPadding={12} className="w-72">
@@ -111,11 +149,36 @@ function ReadOnlyToolbarContent({ className }: { className?: string }) {
   );
 }
 
-function ReadOnlyToolbarSearch() {
+function ReadOnlyToolbarSearch({
+  variant = "icons",
+}: {
+  variant?: ReadOnlyToolbarVariant;
+}) {
   const { table } = useTableViewCtx();
   const searchInputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  if (variant === "chips") {
+    return (
+      <table.Subscribe selector={(state) => String(state.globalFilter ?? "")}>
+        {(globalFilter) => (
+          <Input
+            ref={inputRef}
+            id={searchInputId}
+            search
+            clear
+            className="h-7 w-56 text-xs"
+            aria-label="Search table"
+            placeholder="Search"
+            value={globalFilter}
+            onChange={(e) => table.setGlobalFilter(e.target.value)}
+            onCancel={table.resetGlobalFilter}
+          />
+        )}
+      </table.Subscribe>
+    );
+  }
 
   return (
     <div className="flex items-center">

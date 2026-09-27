@@ -28,11 +28,19 @@ export interface StatCardProps {
   /** Renders the card as a button. */
   onClick?: () => void;
   tone?: StatCardTone;
+  /**
+   * `card` (default) draws a bordered tile. `inline` renders the value above
+   * the label with no box, for a KPI row such as "Logs in the last 7 days".
+   */
+  variant?: "card" | "inline";
   className?: string;
 }
 
 const cardClassName =
   "flex flex-col gap-1.5 rounded-lg border border-border bg-transparent p-4 text-left text-primary shadow-xs";
+const inlineClassName = "flex flex-col gap-0.5 text-left text-primary";
+const inlineInteractiveClassName =
+  "cursor-pointer rounded-sm transition-colors hover:text-blue focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring";
 const interactiveClassName =
   "cursor-pointer transition-colors hover:bg-default/5 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring";
 
@@ -49,16 +57,36 @@ function StatCard({
   href,
   onClick,
   tone = "default",
+  variant = "card",
   className,
 }: StatCardProps) {
   const interactive = Boolean(href ?? onClick);
+  const inline = variant === "inline";
   const rootClassName = cn(
-    cardClassName,
-    interactive && interactiveClassName,
+    inline ? inlineClassName : cardClassName,
+    interactive && (inline ? inlineInteractiveClassName : interactiveClassName),
     className,
   );
 
-  const content = (
+  const content = inline ? (
+    <>
+      <span className={cn(statValueVariants({ tone }), "text-[26px]/8")}>
+        {value}
+      </span>
+      <span className="flex items-center gap-1 text-xs text-secondary">
+        {icon && (
+          <span
+            aria-hidden="true"
+            className="shrink-0 text-icon [&_svg]:size-3.5"
+          >
+            {icon}
+          </span>
+        )}
+        {label}
+      </span>
+      {caption && <span className="text-xs text-muted">{caption}</span>}
+    </>
+  ) : (
     <>
       <span className="flex items-center justify-between gap-2">
         <span className="text-xs font-medium text-muted">{label}</span>
@@ -80,6 +108,7 @@ function StatCard({
         onClick={onClick}
         aria-label={label}
         data-tone={tone}
+        data-variant={variant}
         className={rootClassName}
       >
         {content}
@@ -94,6 +123,7 @@ function StatCard({
         onClick={onClick}
         aria-label={label}
         data-tone={tone}
+        data-variant={variant}
         className={rootClassName}
       >
         {content}
@@ -102,7 +132,7 @@ function StatCard({
   }
 
   return (
-    <div data-tone={tone} className={rootClassName}>
+    <div data-tone={tone} data-variant={variant} className={rootClassName}>
       {content}
     </div>
   );

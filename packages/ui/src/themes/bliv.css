@@ -93,6 +93,3 @@
 }
 
 /* Density: smaller base type scale; components already lean on text-sm/xs. */
-html.theme-bliv {
-  font-size: 13px;
-}

@@ -10,7 +10,10 @@ import { SortMenu } from "@/menus/sort-menu";
 import { useMenuCoordinator } from "@/table-contexts";
 import { ActiveBar } from "@/tools/active-bar";
 
-import { ReadOnlyToolbar } from "./read-only-toolbar";
+import {
+  ReadOnlyToolbar,
+  type ReadOnlyToolbarVariant,
+} from "./read-only-toolbar";
 
 /**
  * Read-only counterpart of `@/tools/view-controls`'s `ViewControls`.
@@ -21,12 +24,16 @@ import { ReadOnlyToolbar } from "./read-only-toolbar";
  * selection count is always zero and it already renders nothing, but leaving
  * it out makes that guarantee explicit rather than incidental.
  */
-export function ReadOnlyViewControls() {
+export function ReadOnlyViewControls({
+  toolbar = "icons",
+}: {
+  toolbar?: ReadOnlyToolbarVariant;
+}) {
   const { filterMenu, sortMenu } = useMenuCoordinator();
 
   return (
     <>
-      <ReadOnlyToolbar />
+      <ReadOnlyToolbar variant={toolbar} />
       <ActiveBar />
       <Popover handle={filterMenu.handle}>
         <PopoverContent
