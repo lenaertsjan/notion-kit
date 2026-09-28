@@ -38,9 +38,23 @@ describe("ReadOnly", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("ReadOnly_True_HidesPlaceholderAutomationsAndFullPageActions", () => {
+    renderTableView({ readOnly: true });
+
+    expect(
+      screen.queryByRole("button", { name: "Create and view automations" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Open as full page" }),
+    ).not.toBeInTheDocument();
+  });
+
   it("ReadOnly_Undefined_KeepsCurrentBehaviorWithNewSettingsAndFooterVisible", () => {
     renderTableView();
 
+    expect(
+      screen.getByRole("button", { name: "Create and view automations" }),
+    ).toBeVisible();
     expect(screen.getByRole("button", { name: "Settings" })).toBeVisible();
     expect(
       screen.getAllByRole("button", { name: /calculation$/ }).length,
