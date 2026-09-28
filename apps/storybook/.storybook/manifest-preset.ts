@@ -1,22 +1,22 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-type ManifestComponent = {
+interface ManifestComponent {
   import?: string;
   path?: string;
-};
+}
 
-type Manifests = {
+interface Manifests {
   components?: {
     components?: Record<string, ManifestComponent>;
   };
-};
+}
 
-type Binding = {
+interface Binding {
   name: string;
   kind: "default" | "named";
   specifier: string;
-};
+}
 
 // Storybook's resolver does not understand package export wildcards, so it
 // rewrites `@notion-kit/ui/primitives` to `@notion-kit/ui` and can merge
@@ -30,7 +30,7 @@ function storyBindings(storySource: string) {
     const specifier = match[2];
     if (!clause || !specifier) continue;
 
-    const named = clause.match(/\{([^}]+)\}/)?.[1];
+    const named = /\{([^}]+)\}/.exec(clause)?.[1];
     if (named) {
       for (const part of named.split(",")) {
         const name = part
@@ -58,13 +58,14 @@ function storyBindings(storySource: string) {
 }
 
 function generatedNames(line: string) {
-  const match = line
-    .trim()
-    .match(/^import\s+(?:type\s+)?([\s\S]*?)\s+from\s+["']([^"']+)["'];?$/);
+  const match =
+    /^import\s+(?:type\s+)?([\s\S]*?)\s+from\s+["']([^"']+)["'];?$/.exec(
+      line.trim(),
+    );
   if (!match?.[1] || !match[2]) return [];
 
-  const names: Array<{ name: string; specifier: string }> = [];
-  const named = match[1].match(/\{([^}]+)\}/)?.[1];
+  const names: { name: string; specifier: string }[] = [];
+  const named = /\{([^}]+)\}/.exec(match[1])?.[1];
   if (named) {
     for (const part of named.split(",")) {
       const name = part
@@ -125,9 +126,12 @@ export function restoreImports(generated: string, storySource: string) {
     .join("\n");
 }
 
-export async function experimental_manifests(manifests: Manifests = {}) {
+// Storybook awaits this preset hook; nothing inside needs to await.
+export function experimental_manifests(
+  manifests: Manifests = {},
+): Promise<Manifests> {
   const components = manifests.components?.components;
-  if (!components) return manifests;
+  if (!components) return Promise.resolve(manifests);
 
   for (const component of Object.values(components)) {
     if (!component.import || !component.path) continue;
@@ -143,5 +147,5 @@ export async function experimental_manifests(manifests: Manifests = {}) {
     if (restored) component.import = restored;
   }
 
-  return manifests;
+  return Promise.resolve(manifests);
 }

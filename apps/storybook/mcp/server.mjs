@@ -1,8 +1,8 @@
-import { createStorybookMcpHandler } from "@storybook/mcp";
-import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
+import { createServer } from "node:http";
 import { dirname, resolve, sep } from "node:path";
 import { Readable } from "node:stream";
+import { createStorybookMcpHandler } from "@storybook/mcp";
 
 const manifestsPath =
   process.env.STORYBOOK_MANIFESTS ?? "/var/www/storybook/manifests";
