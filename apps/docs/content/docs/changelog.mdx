@@ -3,6 +3,33 @@ title: Changelog
 description: Latest updates and improvements to Notion UI.
 ---
 
+<ChangelogBlock version="v1.3.0">
+
+### 📊 Dashboard building blocks
+
+New components for operator dashboards, each on its own `@notion-kit/ui/<name>` subpath and themed through the kit's CSS variables in light and dark.
+
+**What's new:**
+
+- **StatCard and Sparkline:** KPI tiles with deltas, captions and an optional dependency-free SVG sparkline.
+- **TodoStack:** An action-first list of things waiting on the user, with tones and an "all done" state.
+- **EmptyState, PageHeader, DescriptionList, ActivityFeed and Kbd:** Page scaffolding, key/value detail rows with copy buttons, event timelines and keyboard hints.
+- **Segmented tabs:** `TabsList variant="segmented"` for pill-style switches such as date ranges.
+- **Smaller bundles:** `@notion-kit/ui` declares `sideEffects` so unused primitives are tree-shaken.
+
+### 🌍 Localized, read-only Table View
+
+Embed Table View as a translated, read-only data table.
+
+**What's new:**
+
+- **`messages`:** Override the toolbar, menus, row peek, footer and edit-log strings (`defaultTableViewMessages`, `TableViewMessages`).
+- **`readOnly`:** Lock editing while keeping search, sort and filter; hide the New button, view settings and footer.
+- **Row peek slot:** `renderRowView`, `onRowOpen` and `openRowOnClick` add custom content to the side, center or full peek.
+- **Fixes:** The toolbar New button now adds a row (or calls `onNewRow`), list rows open with Enter, and the sidebar no longer logs on toggle.
+
+</ChangelogBlock>
+
 <ChangelogBlock version="v1.2.0">
 
 ### 🔎 Table search and filters
