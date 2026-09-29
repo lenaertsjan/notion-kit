@@ -12,7 +12,15 @@
  * `<html class="theme-bliv">` for light mode. next-themes toggles `dark`
  * on/off on the same element, so the `.dark .theme-bliv` / `.theme-bliv.dark`
  * selectors below cover both class orders.
- */
+*/
+
+/* Notion icons without an explicit fill follow their surrounding text. Keep
+ * this in the base layer so component fill utilities still take precedence. */
+@layer base {
+  .theme-bliv svg[role="graphics-symbol"]:not([fill]) {
+    fill: currentColor;
+  }
+}
 
 .theme-bliv {
   /* General color */
