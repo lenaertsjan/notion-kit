@@ -1,0 +1,90 @@
+---
+title: Learning Steps Dialog
+description: A paginated onboarding tour dialog with a video or custom media pane.
+---
+
+<ComponentPreview
+  name="learning-steps-dialog-default"
+  preview={`<>
+  <Button size="sm" onClick={() => setOpen(true)}>
+    Start tour
+  </Button>
+  <LearningStepsDialog
+    open={open}
+    onOpenChange={setOpen}
+    steps={steps}
+    onComplete={() => setOpen(false)}
+    onDismiss={() => setOpen(false)}
+  />
+</>`}
+/>
+
+## Installation
+
+<Installation
+  packages="@notion-kit/ui"
+  registryName="learning-steps-dialog-default"
+/>
+
+## Anatomy
+
+```
+<LearningStepsDialog
+  steps={[{ icon, title, description, videoUrl, media, content }]}
+/>
+```
+
+Each step renders its `icon`, `title`, and optional `description` in a fixed-width text
+pane with pagination dots and Back/Next/Done controls. The right-hand media pane shows
+`media` when provided, otherwise falls back to a Vimeo embed from `videoUrl`. A step
+without `media` or `videoUrl` collapses the dialog to a single, responsive column.
+
+## Examples
+
+---
+
+### Custom media, no video
+
+<ComponentPreview name="learning-steps-dialog-with-content" hideCode />
+
+### Localized labels
+
+<ComponentPreview name="learning-steps-dialog-localized" hideCode />
+
+## API Reference
+
+### LearningStepsDialog
+
+| Prop           | Type                          | Default | Description                                                                 |
+| -------------- | ----------------------------- | ------- | ---------------------------------------------------------------------------- |
+| `open`         | `boolean`                     | -       | Whether the dialog is open.                                                 |
+| `onOpenChange` | `(open: boolean) => void`     | -       | Handler called when the dialog opens or closes.                             |
+| `steps`\*      | `LearningStep[]`               | -       | The ordered tour steps.                                                     |
+| `onComplete`   | `() => void`                  | -       | Called when "Done" is pressed on the last step, before `onOpenChange(false)`. |
+| `onDismiss`    | `() => void`                  | -       | Called when the dialog closes without completion (close button, Escape, or outside click), before `onOpenChange(false)`. |
+| `step`         | `number`                      | -       | Controlled current step, 0-based.                                           |
+| `defaultStep`  | `number`                      | `0`     | Initial step for uncontrolled usage. Reset to this value whenever `open` becomes `true`. |
+| `onStepChange` | `(step: number) => void`      | -       | Called when the current step changes, controlled or not.                    |
+| `labels`       | `Partial<LearningStepsDialogLabels>` | English defaults | Overrides for the dialog's button and pagination strings.         |
+| `className`    | `string`                      | -       | Classes merged onto the dialog content.                                     |
+
+### `type` LearningStep
+
+| Prop          | Type              | Description                                                                 |
+| ------------- | ----------------- | ----------------------------------------------------------------------------- |
+| `icon`\*      | `React.ReactNode` | Icon or emoji shown above the step title.                                    |
+| `title`\*     | `string`          | The step heading.                                                            |
+| `description` | `React.ReactNode` | Optional supporting copy under the title.                                    |
+| `videoUrl`    | `string`          | A Vimeo embed URL rendered in the media pane. Ignored when `media` is set.    |
+| `media`       | `React.ReactNode` | A custom right-hand visual. Wins over `videoUrl`.                            |
+| `content`     | `React.ReactNode` | Extra body rendered under the description, such as a checklist.              |
+
+### `type` LearningStepsDialogLabels
+
+| Prop    | Type                                          | Default                        | Description                          |
+| ------- | ---------------------------------------------- | ------------------------------- | ------------------------------------- |
+| `next`  | `string`                                       | `"Next"`                        | The next-step button label.           |
+| `back`  | `string`                                       | `"Back"`                        | The previous-step button label.       |
+| `done`  | `string`                                       | `"Done"`                        | The final-step completion button label. |
+| `close` | `string`                                       | `"Close"`                       | The accessible name of the close button. |
+| `slide` | `(index: number, total: number) => string`     | `` (index, total) => `Slide ${index} of ${total}` `` | The pagination dot accessible name and tablist label. `index` is 1-based. |

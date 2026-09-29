@@ -3,6 +3,39 @@ title: Changelog
 description: Latest updates and improvements to Notion UI.
 ---
 
+<ChangelogBlock version="v1.4.0">
+
+### 🧭 Learning Steps Dialog onboarding tour
+
+`LearningStepsDialog` grew a full onboarding-tour API instead of a fixed,
+video-only walkthrough.
+
+**What's new:**
+
+- **`media`:** Any `ReactNode` for the right-hand visual, winning over the
+  optional `videoUrl` Vimeo fallback. A step with neither collapses the
+  dialog to a single, responsive column that fits a 320px viewport.
+- **`content`:** Extra body content, such as a checklist, under a step's
+  description.
+- **`labels`:** Overrides every string (`next`, `back`, `done`, `close`, and
+  a `slide(index, total)` pagination formatter) for localization.
+- **Close and Back:** A localized, accessible close button and a Back
+  button (from the second step). `onDismiss` fires for close/Escape/outside
+  click, separate from `onComplete` on "Done".
+- **Controllable step:** `step`, `defaultStep`, and `onStepChange` make the
+  current step controllable; uncontrolled state resets to `defaultStep`
+  whenever the dialog opens.
+- **Accessible pagination:** Dots are a `role="tablist"` with roving
+  `tabIndex` and arrow key/Home/End navigation instead of every dot being
+  focusable.
+
+### 🧹 Read-only Table View toolbar
+
+A read-only Table View no longer shows the toolbar's "Create and view
+automations" and "Open as full page" buttons, which had no action yet.
+
+</ChangelogBlock>
+
 <ChangelogBlock version="v1.3.0">
 
 ### 📊 Dashboard building blocks
