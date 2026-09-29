@@ -251,6 +251,30 @@ export const Index: Record<
     files: ["registry/src/input-search/input-search.tsx"],
     component: React.lazy(() => import("@notion-kit/registry/input-search")),
   },
+  "learning-steps-dialog-default": {
+    files: [
+      "registry/src/learning-steps-dialog-default/learning-steps-dialog-default.tsx",
+    ],
+    component: React.lazy(
+      () => import("@notion-kit/registry/learning-steps-dialog-default"),
+    ),
+  },
+  "learning-steps-dialog-localized": {
+    files: [
+      "registry/src/learning-steps-dialog-localized/learning-steps-dialog-localized.tsx",
+    ],
+    component: React.lazy(
+      () => import("@notion-kit/registry/learning-steps-dialog-localized"),
+    ),
+  },
+  "learning-steps-dialog-with-content": {
+    files: [
+      "registry/src/learning-steps-dialog-with-content/learning-steps-dialog-with-content.tsx",
+    ],
+    component: React.lazy(
+      () => import("@notion-kit/registry/learning-steps-dialog-with-content"),
+    ),
+  },
   "login-form-auth": {
     files: ["registry/src/login-form-auth/login-form-auth.tsx"],
     component: React.lazy(() => import("@notion-kit/registry/login-form-auth")),
