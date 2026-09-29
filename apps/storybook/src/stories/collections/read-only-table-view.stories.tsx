@@ -66,3 +66,35 @@ export const WithCustomRowDetail: Story = {
     </div>
   ),
 };
+
+export const Console: Story = {
+  render: () => (
+    <div className="p-4">
+      <ReadOnlyTableView
+        data={mockData}
+        properties={mockProps}
+        toolbar="chips"
+        presentation="console"
+        toolbarMeta="Latest records"
+        hideRowProperties
+        renderRowDetail={(row) => (
+          <p className="text-sm">Details for {row.id}</p>
+        )}
+      />
+    </div>
+  ),
+};
+
+export const EmptyConsole: Story = {
+  render: () => (
+    <div className="p-4">
+      <ReadOnlyTableView
+        data={[]}
+        properties={mockProps}
+        toolbar="chips"
+        presentation="console"
+        emptyState={<p className="p-8 text-sm">No records yet.</p>}
+      />
+    </div>
+  ),
+};

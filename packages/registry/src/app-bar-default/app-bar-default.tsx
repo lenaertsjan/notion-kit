@@ -6,6 +6,7 @@ export default function AppBarDefault() {
   return (
     <AppBar
       brand="Bliv"
+      showIdentity
       breadcrumbs={[{ label: "Fleet", href: "#" }, { label: "Machines" }]}
       actions={
         <Button variant="icon" aria-label="Refresh">

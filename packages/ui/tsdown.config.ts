@@ -30,6 +30,7 @@ export default defineConfig((opts) => ({
   ...opts,
   ...withReactCompiler(opts),
   entry: {
+    "console-layout/index": "./src/console-layout/index.ts",
     "alert-modal/index": "./src/alert-modal/index.tsx",
     "reason-dialog/index": "./src/reason-dialog/index.ts",
     "copy-secret-field/index": "./src/copy-secret-field/index.ts",

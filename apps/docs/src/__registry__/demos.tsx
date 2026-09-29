@@ -11,6 +11,12 @@ export const Index: Record<
     component: React.LazyExoticComponent<React.ComponentType<object>>;
   }
 > = {
+  "console-layout-demo": {
+    files: ["registry/src/console-layout-demo/console-layout-demo.tsx"],
+    component: React.lazy(
+      () => import("@notion-kit/registry/console-layout-demo"),
+    ),
+  },
   "accordion-default": {
     files: ["registry/src/accordion-default/accordion-default.tsx"],
     component: React.lazy(

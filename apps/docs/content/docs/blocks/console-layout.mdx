@@ -1,0 +1,26 @@
+---
+title: Console Layout
+description: A responsive console frame with sidebar navigation and a context bar.
+---
+
+<ComponentPreview name="console-layout-demo" hideCode className="p-0" />
+
+## Installation
+
+<Installation packages="@notion-kit/ui" registryName="console-layout-demo" />
+
+## Usage
+
+Compose navigation links with `Button render={<Link />}` for your router. The frame provides the single `main` landmark; page content should use sections or divs. Links in the mobile navigation dismiss its sheet automatically. The 240px desktop sidebar collapses off canvas; below 768px it opens as a labeled modal sheet.
+
+## API Reference
+
+| Prop              | Type        | Description                                          |
+| ----------------- | ----------- | ---------------------------------------------------- |
+| `brand`           | `ReactNode` | Product mark in the sidebar header.                  |
+| `navigation`      | `ReactNode` | Navigation links or groups.                          |
+| `navigationLabel` | `string`    | Accessible name for navigation and its mobile sheet. |
+| `contextBar`      | `ReactNode` | Context and account controls, usually `AppBar`.      |
+| `footer`          | `ReactNode` | Optional sidebar footer.                             |
+| `children`        | `ReactNode` | Main content; do not nest another main landmark.     |
+| `className`       | `string`    | Additional frame classes.                            |

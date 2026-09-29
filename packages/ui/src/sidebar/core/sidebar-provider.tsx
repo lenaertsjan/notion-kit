@@ -90,7 +90,6 @@ function SidebarProvider({
     return isMobile
       ? setOpenMobile((open) => !open)
       : setOpen((open) => {
-          console.log(`setting sidebar open to ${!open}`);
           return !open;
         });
   }, [isMobile, setOpen, setOpenMobile]);

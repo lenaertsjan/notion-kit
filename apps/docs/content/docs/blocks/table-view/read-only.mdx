@@ -47,7 +47,7 @@ see [`TableViewState`](/docs/blocks/table-view#tableviewstate) — so every
 place that already respects it (disabled cell editors, no add-row control, no
 row drag-and-drop, an inert row detail panel) works here unchanged. On top of
 that, `ReadOnlyTableView` renders its own column header menu, "columns" panel,
-and view-settings menu, because the full editor disables those *entirely*
+and view-settings menu, because the full editor disables those _entirely_
 while locked rather than narrowing them — this preset needs filter/sort/group
 to stay available.
 
@@ -94,10 +94,10 @@ Takes every [`TableView`](/docs/blocks/table-view#tableview) prop except
 `defaultColumn`, which this preset owns to guarantee the read-only rendering
 below — a `defaultColumn` passed in is ignored, plus:
 
-| Prop              | Type                                    | Description                                                                              |
-| ----------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Prop              | Type                                        | Description                                                                                 |
+| ----------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | `onRowClick`      | `(rowId: string, row: RowInstance) => void` | Called when a row is clicked outside of an interactive child, alongside opening the drawer. |
-| `renderRowDetail` | `(row: RowInstance) => ReactNode`        | Extra content rendered inside the opened row's detail drawer, below its property list.     |
+| `renderRowDetail` | `(row: RowInstance) => ReactNode`           | Extra content rendered inside the opened row's detail drawer, below its property list.      |
 
 ### What's intentionally out of scope
 
@@ -106,3 +106,22 @@ below — a `defaultColumn` passed in is ignored, plus:
 - Column drag-reordering is dropped; the "columns" panel still supports
   search and show/hide
 - Edit logs (`fetchTableEditLogs`/`fetchRowEditLogs`) aren't wired up
+
+## Console presentation
+
+Use `presentation="console"` with `toolbar="chips"` for a bordered resource table and a responsive inspector. `toolbarActions` and `toolbarMeta` accept React nodes for refresh controls and timestamps. `emptyState` supplies the initial empty state; searches with no matches keep the toolbar and display a separate filtered-empty message.
+
+```tsx
+<ReadOnlyTableView
+  data={records}
+  properties={properties}
+  presentation="console"
+  toolbar="chips"
+  toolbarMeta="Updated just now"
+  toolbarActions={<Button onClick={refresh}>Refresh</Button>}
+  hideRowProperties
+  renderRowDetail={(row) => <ResourceDetails id={row.id} />}
+/>
+```
+
+The console inspector keeps its selected record during refresh. If it disappears, the panel explains that it is no longer available. Existing editor and default read-only presentation remain unchanged.

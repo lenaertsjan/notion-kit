@@ -47,6 +47,7 @@ function ReadOnlyTableHeaderRow() {
 
         return (
           <Row.Root
+            role="row"
             data-notion-slot="notion-table-view-header-row"
             dir="ltr"
             className="inset-x-0 box-border h-[34px] bg-main shadow-header-row"

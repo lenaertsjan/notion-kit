@@ -94,7 +94,10 @@ function ReasonDialog({
   };
 
   return (
-    <DialogContent hideClose className="flex w-100 flex-col items-start gap-4">
+    <DialogContent
+      hideClose
+      className="flex max-h-[calc(100svh-32px)] w-100 max-w-[calc(100vw-32px)] flex-col items-start gap-4 overflow-y-auto"
+    >
       <DialogHeader>
         <DialogTitle className="text-base font-normal tracking-wide">
           {title}

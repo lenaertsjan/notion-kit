@@ -1,4 +1,5 @@
 export const registryIndex = [
+  "console-layout-demo",
   "accordion-default",
   "activity-list-default",
   "app-bar-default",

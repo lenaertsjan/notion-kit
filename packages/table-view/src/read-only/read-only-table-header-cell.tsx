@@ -47,6 +47,7 @@ export function ReadOnlyTableHeaderCell({
 
   return (
     <div
+      role="columnheader"
       className="relative flex h-full flex-row whitespace-nowrap"
       style={style}
     >
@@ -65,7 +66,7 @@ export function ReadOnlyTableHeaderCell({
           side="top"
         >
           <DropdownMenuTrigger
-            aria-label={info.name}
+            aria-label={info.name || "Column options"}
             data-table-header-slot="table-header-cell-trigger"
             className={cn(isResizing && "bg-transparent")}
             render={

@@ -142,8 +142,10 @@ export function TableHeaderCellResizer({ header }: TableHeaderCellProps) {
         render={<div />}
         variant="hint"
         role="separator"
-        aria-label={`Resize ${info.name}`}
+        aria-label={`Resize ${info.name || "column"}`}
         aria-orientation="vertical"
+        aria-valuenow={header.getSize()}
+        aria-valuetext={`${header.getSize()} pixels`}
         data-table-header-slot="table-header-cell-resizer"
         tabIndex={-1}
         className={cn(

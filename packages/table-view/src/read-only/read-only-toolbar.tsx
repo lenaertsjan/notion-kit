@@ -89,7 +89,7 @@ function ReadOnlyToolbarContent({
   return (
     <div
       className={cn(
-        "flex items-center",
+        "flex min-w-0 flex-wrap items-center",
         chips ? "justify-start gap-2" : "justify-end gap-0.5",
         className,
       )}
@@ -168,7 +168,7 @@ function ReadOnlyToolbarSearch({
             id={searchInputId}
             search
             clear
-            className="h-7 w-56 text-xs"
+            className="h-8 w-44 max-w-full text-sm"
             aria-label="Search table"
             placeholder="Search"
             value={globalFilter}

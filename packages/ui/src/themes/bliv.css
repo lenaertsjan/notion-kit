@@ -18,16 +18,16 @@
   /* General color */
   --blue: rgb(37, 99, 235); /* #2563eb */
   --blue-hover: rgb(29, 78, 216); /* #1d4ed8 */
-  --red: rgb(239, 68, 68); /* #ef4444 */
-  --orange: rgb(217, 119, 6); /* #d97706 */
+  --red: rgb(185, 28, 28); /* #b91c1c */
+  --orange: rgb(133, 77, 14); /* #854d0e */
 
   /* Text color */
   --base: 17 24 39; /* #111827, consumed via rgb(var(--base)) */
   --default: rgb(var(--base));
   --primary: rgb(17, 24, 39); /* #111827 */
-  --secondary: rgb(107, 114, 128); /* #6b7280 */
-  --muted: rgb(156, 163, 175); /* #9ca3af */
-  --icon: rgb(156, 163, 175); /* #9ca3af */
+  --secondary: rgb(88, 97, 116); /* #586174 */
+  --muted: rgb(107, 114, 128); /* #6b7280 */
+  --icon: rgb(107, 114, 128); /* #6b7280 */
   --icon-primary: rgb(55, 65, 81); /* #374151 */
   --icon-secondary: rgb(107, 114, 128); /* #6b7280 */
 
@@ -42,8 +42,10 @@
   --border: rgb(229, 231, 235); /* #e5e7eb */
   --border-button: rgb(209, 213, 219); /* #d1d5db */
   --border-cell: rgb(229, 231, 235); /* #e5e7eb */
-  --ring: rgb(229, 231, 235); /* #e5e7eb */
-  --radius: 0.375rem; /* 6px */
+  --ring: rgb(37, 99, 235); /* #2563eb */
+  --radius: 0.5rem; /* 8px */
+  --link: rgb(29, 78, 216);
+  --badge-success: rgb(47, 107, 75);
   --sha-out-md:
     0px 4px 12px 0px rgba(17, 24, 39, 0.04),
     0px 1px 2px 0px rgba(17, 24, 39, 0.03),
@@ -70,7 +72,7 @@
   --default: rgb(var(--base));
   --primary: rgb(229, 231, 235); /* #e5e7eb */
   --secondary: rgb(156, 163, 175); /* #9ca3af */
-  --muted: rgb(107, 114, 128); /* #6b7280 */
+  --muted: rgb(156, 163, 175); /* #9ca3af */
   --icon: rgb(156, 163, 175); /* #9ca3af */
   --icon-primary: rgb(209, 213, 219); /* #d1d5db */
   --icon-secondary: rgb(156, 163, 175); /* #9ca3af */
@@ -86,10 +88,34 @@
   --border: rgba(255, 255, 255, 0.08);
   --border-button: rgba(255, 255, 255, 0.12);
   --border-cell: rgba(255, 255, 255, 0.08);
-  --ring: rgba(255, 255, 255, 0.08);
+  --ring: rgb(96, 165, 250);
+  --link: rgb(96, 165, 250);
+  --badge-success: rgb(95, 179, 126);
   --sha-out-md:
     0px 0px 0px 1px rgba(255, 255, 255, 0.08),
     0px 4px 12px -2px rgba(0, 0, 0, 0.5);
 }
 
-/* Density: smaller base type scale; components already lean on text-sm/xs. */
+/* Text accents stay readable on tinted surfaces without changing button fills. */
+.theme-bliv .text-blue {
+  color: var(--link);
+}
+.theme-bliv a.text-blue {
+  text-decoration-line: underline;
+  text-underline-offset: 3px;
+}
+.theme-bliv [data-slot="tabs-trigger"]:not([data-active]) {
+  color: var(--muted);
+}
+.theme-bliv [data-slot="badge"][data-variant="success"] {
+  color: var(--badge-success);
+}
+
+/* Shared console scale; independent of application selectors. */
+.theme-bliv [data-slot="console-layout"] {
+  font-size: 14px;
+}
+.theme-bliv [data-slot="tabs-trigger"]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}

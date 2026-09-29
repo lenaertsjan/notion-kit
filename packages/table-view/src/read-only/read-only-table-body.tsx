@@ -29,8 +29,10 @@ export type ReadOnlyRowClickHandler = (rowId: string, row: RowInstance) => void;
  */
 export function ReadOnlyTableBody({
   onRowClick,
+  emptyState,
 }: {
   onRowClick?: ReadOnlyRowClickHandler;
+  emptyState?: React.ReactNode;
 }) {
   const { table } = useTableViewCtx();
 
@@ -52,6 +54,25 @@ export function ReadOnlyTableBody({
         const rows = table.getRowModel().rows;
         return (
           <div className="relative isolation-auto min-w-[708px]">
+            {rows.length === 0 && (
+              <div role="row">
+                <div
+                  role="cell"
+                  aria-colspan={table.getVisibleLeafColumns().length}
+                >
+                  {table.getCoreRowModel().rows.length === 0 && emptyState ? (
+                    emptyState
+                  ) : (
+                    <p
+                      role="status"
+                      className="px-4 py-12 text-sm text-secondary"
+                    >
+                      No matching records. Try changing your search or filters.
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
             <div className="relative">
               {rows.map((row) =>
                 row.getIsGrouped() ? (
@@ -97,13 +118,22 @@ function ReadOnlyTableRow({ row, onRowClick }: ReadOnlyTableRowProps) {
         row.getIsFirstChild() && "border-t border-t-border-cell",
       )}
       onClick={(event) => {
+        // React portal events bubble through the row even when the menu or
+        // dialog lives outside it. Those actions must not open another modal.
+        if (
+          !(event.target instanceof Node) ||
+          !event.currentTarget.contains(event.target)
+        )
+          return;
         if (isInteractiveTarget(event.target, event.currentTarget)) return;
+        event.currentTarget.focus();
         openRow();
       }}
       onKeyDown={(event) => {
         if (event.target !== event.currentTarget) return;
         if (event.key !== "Enter" && event.key !== " ") return;
         event.preventDefault();
+        event.currentTarget.focus();
         openRow();
       }}
     >

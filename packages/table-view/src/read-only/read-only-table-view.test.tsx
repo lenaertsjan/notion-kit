@@ -1,13 +1,15 @@
 import type React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent, {
   PointerEventsCheckLevel,
 } from "@testing-library/user-event";
+import { createPortal } from "react-dom";
 import { describe, expect, it, vi } from "vitest";
 
 import type { RowInstance } from "@notion-kit/table-hook";
 
 import { createFullPluginFixture, mockResizeObserver } from "../__tests__/mock";
+import { DEFAULT_PLUGINS } from "../plugins";
 import { ReadOnlyTableView } from "./read-only-table-view";
 
 mockResizeObserver();
@@ -46,6 +48,8 @@ describe("ReadOnlyTableView", () => {
     setup();
 
     expect(screen.getByRole("row", { name: /Alpha/ })).toBeVisible();
+    expect(screen.getByRole("columnheader", { name: /Status/ })).toBeVisible();
+    expect(screen.getAllByRole("cell").length).toBeGreaterThan(0);
     expect(
       screen.queryByRole("button", { name: "New page" }),
     ).not.toBeInTheDocument();
@@ -185,5 +189,103 @@ describe("ReadOnlyTableView", () => {
     expect(
       screen.queryByRole("row", { name: /Alpha/ }),
     ).not.toBeInTheDocument();
+  });
+});
+
+describe("console presentation", () => {
+  it("does not open a row when an action in its portal is clicked", async () => {
+    const action = vi.fn();
+    const onRowClick = vi.fn();
+    const { user } = setup({
+      data: data.slice(0, 1),
+      properties: properties.filter((property) => property.type === "title"),
+      presentation: "console",
+      onRowClick,
+      plugins: {
+        ...DEFAULT_PLUGINS,
+        ui: DEFAULT_PLUGINS.ui.map((plugin) => ({
+          ...plugin,
+          renderReadOnlyValue: () =>
+            createPortal(
+              <button onClick={action}>Perform resource action</button>,
+              document.body,
+            ),
+        })),
+      },
+    });
+    await user.click(
+      screen.getByRole("button", { name: "Perform resource action" }),
+    );
+    expect(action).toHaveBeenCalledOnce();
+    expect(onRowClick).not.toHaveBeenCalled();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("keeps the selected inspector through a refresh and explains a removed record", async () => {
+    const user = userEvent.setup({
+      pointerEventsCheck: PointerEventsCheckLevel.Never,
+    });
+    const detail = (row: RowInstance) => <p>Resource {row.id}</p>;
+    const { rerender } = render(
+      <ReadOnlyTableView
+        data={data}
+        properties={properties}
+        presentation="console"
+        toolbar="chips"
+        hideRowProperties
+        renderRowDetail={detail}
+      />,
+    );
+    const row = screen.getByRole("row", { name: /Alpha/ });
+    await user.click(row);
+    expect(await screen.findByRole("heading", { name: "Alpha" })).toBeVisible();
+    rerender(
+      <ReadOnlyTableView
+        data={[...data]}
+        properties={properties}
+        presentation="console"
+        toolbar="chips"
+        hideRowProperties
+        renderRowDetail={detail}
+      />,
+    );
+    expect(screen.getByRole("heading", { name: "Alpha" })).toBeVisible();
+    rerender(
+      <ReadOnlyTableView
+        data={[]}
+        properties={properties}
+        presentation="console"
+        toolbar="chips"
+        hideRowProperties
+        renderRowDetail={detail}
+      />,
+    );
+    expect(
+      await screen.findByRole("heading", {
+        name: "Record no longer available",
+      }),
+    ).toBeVisible();
+    await user.click(screen.getByRole("button", { name: "Close row" }));
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    );
+  });
+
+  it("keeps search available for empty results and renders toolbar actions", async () => {
+    const refresh = vi.fn();
+    const { user } = setup({
+      presentation: "console",
+      toolbar: "chips",
+      toolbarMeta: "Latest records",
+      toolbarActions: <button onClick={refresh}>Refresh</button>,
+    });
+    await user.type(
+      screen.getByRole("searchbox", { name: "Search table" }),
+      "nothing-matches-this-record",
+    );
+    expect(await screen.findByText(/No matching records/)).toBeVisible();
+    await user.click(screen.getByRole("button", { name: "Refresh" }));
+    expect(refresh).toHaveBeenCalledOnce();
+    expect(screen.getByText("Latest records")).toBeVisible();
   });
 });

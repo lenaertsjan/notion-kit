@@ -1,3 +1,6 @@
+import type { ReactNode } from "react";
+
+import { cn } from "@notion-kit/cn";
 import type { PartialTableViewState, TableProps } from "@notion-kit/table-hook";
 import type { CellPlugin } from "@notion-kit/table-hook/plugins";
 
@@ -13,6 +16,7 @@ import {
   useTableViewCtx,
 } from "@/table-contexts";
 
+import { ConsoleRowView } from "./console-row-view";
 import { readOnlyDefaultColumn } from "./read-only-default-column";
 import { ReadOnlyRowView, type RenderRowDetail } from "./read-only-row-view";
 import type { ReadOnlyRowClickHandler } from "./read-only-table-body";
@@ -52,6 +56,11 @@ export type ReadOnlyTableViewProps<
   hideRowProperties?: boolean;
   /** Toolbar style: compact Notion icons, or labelled chips with a search box. */
   toolbar?: ReadOnlyToolbarVariant;
+  /** Opt-in bordered table and responsive console inspector. */
+  presentation?: "default" | "console";
+  toolbarActions?: ReactNode;
+  toolbarMeta?: ReactNode;
+  emptyState?: ReactNode;
 };
 
 /**
@@ -112,6 +121,10 @@ export function ReadOnlyTableView<
   renderRowDetail,
   hideRowProperties,
   toolbar = "icons",
+  presentation = "default",
+  toolbarActions,
+  toolbarMeta,
+  emptyState,
   plugins = DEFAULT_PLUGINS as unknown as TablePluginPair<TPlugins>,
   ...rest
 }: ReadOnlyTableViewProps<TPlugins>) {
@@ -127,20 +140,46 @@ export function ReadOnlyTableView<
       }
     >
       <MenuCoordinatorProvider>
-        <Table.Root className="flex flex-col gap-4">
+        <Table.Root
+          data-presentation={presentation}
+          className={cn(
+            "flex min-w-0 flex-col gap-4",
+            presentation === "console" &&
+              "[--table-view-row-action-gutter:0px] [&_[data-notion-slot=notion-table-view-row]]:min-h-12 [&_[data-notion-slot=notion-table-view-row]]:hover:bg-default/3 [&_[data-notion-slot=notion-table-view-row]]:focus-visible:ring-2 [&_[data-notion-slot=notion-table-view-row]]:focus-visible:ring-blue [&_[data-notion-slot=notion-table-view-row]]:focus-visible:ring-inset [&_[data-slot=table-view-scroll-container]]:rounded-lg [&_[data-slot=table-view-scroll-container]]:border [&_[data-slot=table-view-scroll-container]]:bg-main",
+          )}
+        >
           <Table.Content
             data-slot="table-view-toolbar-container"
-            className="sticky top-0 z-(--z-row) w-full min-w-0 overflow-x-clip bg-main pb-2"
+            className={cn(
+              "sticky top-0 z-(--z-row) w-full min-w-0 overflow-x-clip bg-main pb-2",
+              presentation === "console" &&
+                "[--table-view-row-action-gutter:0px]",
+            )}
           >
-            <ReadOnlyViewControls toolbar={toolbar} />
+            <ReadOnlyViewControls
+              toolbar={toolbar}
+              actions={toolbarActions}
+              meta={toolbarMeta}
+            />
           </Table.Content>
-          <ReadOnlyContent onRowClick={onRowClick} />
+          <ReadOnlyContent
+            onRowClick={onRowClick}
+            emptyState={emptyState}
+            presentation={presentation}
+          />
           {children}
         </Table.Root>
-        <ReadOnlyRowView
-          renderRowDetail={renderRowDetail}
-          hideRowProperties={hideRowProperties}
-        />
+        {presentation === "console" ? (
+          <ConsoleRowView
+            renderRowDetail={renderRowDetail}
+            hideRowProperties={hideRowProperties}
+          />
+        ) : (
+          <ReadOnlyRowView
+            renderRowDetail={renderRowDetail}
+            hideRowProperties={hideRowProperties}
+          />
+        )}
       </MenuCoordinatorProvider>
     </TableViewWrapper>
   );
@@ -148,8 +187,12 @@ export function ReadOnlyTableView<
 
 function ReadOnlyContent({
   onRowClick,
+  emptyState,
+  presentation,
 }: {
   onRowClick?: ReadOnlyRowClickHandler;
+  emptyState?: ReactNode;
+  presentation: "default" | "console";
 }) {
   const { table } = useTableViewCtx();
 
@@ -193,11 +236,18 @@ function ReadOnlyContent({
             <Table.Content
               role="table"
               data-notion-slot="notion-table-view"
-              className="relative float-left min-w-full pb-0 lining-nums tabular-nums select-none"
+              className={cn(
+                "relative float-left min-w-full pb-0 lining-nums tabular-nums select-none",
+                presentation === "console" &&
+                  "[--table-view-row-action-gutter:0px]",
+              )}
             >
               <div className="relative" style={columnSizeVars}>
                 <ReadOnlyTableHeader />
-                <ReadOnlyTableBody onRowClick={onRowClick} />
+                <ReadOnlyTableBody
+                  onRowClick={onRowClick}
+                  emptyState={emptyState}
+                />
               </div>
             </Table.Content>
           );

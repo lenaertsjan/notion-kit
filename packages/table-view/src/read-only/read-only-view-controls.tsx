@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,14 +28,24 @@ import {
  */
 export function ReadOnlyViewControls({
   toolbar = "icons",
+  actions,
+  meta,
 }: {
   toolbar?: ReadOnlyToolbarVariant;
+  actions?: ReactNode;
+  meta?: ReactNode;
 }) {
   const { filterMenu, sortMenu } = useMenuCoordinator();
 
   return (
     <>
-      <ReadOnlyToolbar variant={toolbar} />
+      <div className="flex flex-wrap items-center gap-3">
+        <ReadOnlyToolbar variant={toolbar} />
+        <div className="ml-auto flex flex-wrap items-center gap-3 text-xs text-secondary">
+          {meta}
+          {actions}
+        </div>
+      </div>
       <ActiveBar />
       <Popover handle={filterMenu.handle}>
         <PopoverContent
@@ -41,7 +53,7 @@ export function ReadOnlyViewControls({
           align="start"
           side="bottom"
           collisionPadding={12}
-          className="max-h-[min(70vh,720px)] w-[750px] overflow-auto"
+          className="max-h-[min(70vh,720px)] w-[min(750px,calc(100vw-24px))] overflow-auto"
         >
           <FilterMenu />
         </PopoverContent>

@@ -43,7 +43,7 @@ export const readOnlyDefaultColumn: NonNullable<
         surface="table"
         wrapped={info.wrapped}
       >
-        <Cell.TableFrame>
+        <Cell.TableFrame role="cell">
           <ReadOnlyCellValue cell={cell} />
         </Cell.TableFrame>
       </Cell.Root>

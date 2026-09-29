@@ -44,6 +44,8 @@ export interface AppBarProps {
   actions?: React.ReactNode;
   /** Called when "Sign out" is selected from the account menu. */
   onSignOut?: () => void;
+  /** Show the account name beside its avatar on desktop. */
+  showIdentity?: boolean;
   className?: string;
 }
 
@@ -108,11 +110,12 @@ export function AppBar({
   actions,
   onSignOut,
   className,
+  showIdentity = false,
 }: AppBarProps) {
   return (
     <Navbar className={cn("justify-between", className)}>
-      <div className="flex min-w-0 shrink-0 items-center gap-x-3">
-        <div className="flex shrink-0 items-center text-sm font-semibold text-primary">
+      <div className="flex min-w-0 items-center gap-x-3">
+        <div className="flex min-w-0 items-center text-sm font-medium text-primary">
           {brand}
         </div>
         {breadcrumbs.length > 0 && <AppBarBreadcrumbs items={breadcrumbs} />}
@@ -129,9 +132,17 @@ export function AppBar({
                 <Button
                   variant={null}
                   aria-label="Account menu"
-                  className="size-7 rounded-full p-0 hover:bg-transparent"
+                  className={cn(
+                    "h-8 gap-2 rounded-md px-0 hover:bg-transparent",
+                    !showIdentity && "w-8",
+                  )}
                 >
-                  <Avatar className="size-7">
+                  {showIdentity && (
+                    <span className="hidden max-w-48 truncate text-right text-sm font-medium lg:block">
+                      {user.name}
+                    </span>
+                  )}
+                  <Avatar className="size-7 shrink-0">
                     <AvatarImage src={user.avatarUrl} alt="" />
                     <AvatarFallback className="bg-main text-xs font-semibold">
                       {user.name[0]?.toUpperCase()}

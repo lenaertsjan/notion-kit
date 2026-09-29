@@ -44,7 +44,10 @@ export function useCellContext() {
   return context;
 }
 
-function TableFrame({ children }: React.PropsWithChildren) {
+function TableFrame({
+  children,
+  role,
+}: React.PropsWithChildren<{ role?: "cell" }>) {
   const { cell } = useCellContext();
   const selection = useCellSelection();
   const { table } = useTableViewCtx();
@@ -70,6 +73,7 @@ function TableFrame({ children }: React.PropsWithChildren) {
     >
       {(state) => (
         <div
+          role={role}
           ref={(element) => {
             selection?.controller.registerFrame(cell.id, element);
           }}

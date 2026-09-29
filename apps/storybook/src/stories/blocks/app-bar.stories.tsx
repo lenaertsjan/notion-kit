@@ -67,3 +67,11 @@ export const WithCenterSlot: Story = {
     user: { name: "Ada Lovelace", email: "ada@example.com" },
   },
 };
+
+export const WithIdentity: Story = {
+  args: {
+    brand: "Workspace",
+    showIdentity: true,
+    user: { name: "Ada Lovelace", email: "ada@example.com" },
+  },
+};

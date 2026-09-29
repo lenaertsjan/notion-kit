@@ -46,7 +46,7 @@ function Sidebar({
         <SheetContent
           data-slot="sidebar"
           data-mobile="true"
-          className="w-(--sidebar-width) bg-sidebar p-0 text-sidebar-primary [&>button]:hidden"
+          className="w-(--sidebar-width)! max-w-[calc(100vw-32px)] bg-sidebar p-0 text-sidebar-primary [&>button]:hidden"
           style={
             {
               "--sidebar-width": config.defaultMobileWidth,

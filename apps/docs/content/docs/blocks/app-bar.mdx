@@ -72,19 +72,20 @@ description: A console app bar with a brand mark, breadcrumbs, a center slot, ac
 
 Composes the [`Navbar`](/docs/blocks/navbar) core.
 
-| Prop          | Type                                | Default | Description                                                             |
-| ------------- | ------------------------------------ | ------- | ------------------------------------------------------------------------ |
-| `brand`\*     | `ReactNode`                          | -       | Product/workspace mark rendered at the far left.                        |
-| `breadcrumbs` | [`AppBarBreadcrumb[]`](#type-appbarbreadcrumb) | `[]`    | Breadcrumb trail; the last entry is treated as the current page.        |
-| `children`    | `ReactNode`                          | -       | Center slot, e.g. search or tabs.                                       |
-| `user`        | [`AppBarUser`](#type-appbaruser)     | -       | Signed-in user; renders an account menu when provided.                  |
-| `actions`     | `ReactNode`                          | -       | Extra controls rendered before the account menu.                        |
-| `onSignOut`   | `() => void`                         | -       | Called when "Sign out" is selected from the account menu.               |
-| `className`   | `string`                             | -       | Additional classes for the root `nav` element.                          |
+| Prop           | Type                                           | Default | Description                                                                               |
+| -------------- | ---------------------------------------------- | ------- | ----------------------------------------------------------------------------------------- |
+| `brand`\*      | `ReactNode`                                    | -       | Product/workspace mark rendered at the far left.                                          |
+| `breadcrumbs`  | [`AppBarBreadcrumb[]`](#type-appbarbreadcrumb) | `[]`    | Breadcrumb trail; the last entry is treated as the current page.                          |
+| `children`     | `ReactNode`                                    | -       | Center slot, e.g. search or tabs.                                                         |
+| `user`         | [`AppBarUser`](#type-appbaruser)               | -       | Signed-in user; renders an account menu when provided.                                    |
+| `actions`      | `ReactNode`                                    | -       | Extra controls rendered before the account menu.                                          |
+| `onSignOut`    | `() => void`                                   | -       | Called when "Sign out" is selected from the account menu.                                 |
+| `showIdentity` | `boolean`                                      | `false` | Show the user name beside the avatar on desktop; narrow screens keep the account trigger. |
+| `className`    | `string`                                       | -       | Additional classes for the root `nav` element.                                            |
 
 <Callout title="Note">
-  The account menu trigger always has the fixed accessible name "Account
-  menu" so it does not depend on the signed-in user's name or email.
+  The account menu trigger always has the fixed accessible name "Account menu"
+  so it does not depend on the signed-in user's name or email.
 </Callout>
 
 ### `type` AppBarBreadcrumb
